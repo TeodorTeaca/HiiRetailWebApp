@@ -1,10 +1,18 @@
 <h2 mat-dialog-title>Add new currency</h2>
-<form [formGroup]="addForm" fxLayout="column" (ngSubmit)="addTenantCurrency()">
+<form [formGroup]="addForm" fxLayout="column" (ngSubmit)="addCurrency()">
     <mat-form-field>
-        <input type="text" placeholder="Tenant Id" matInput formControlName="tenantId">
+        <input type="text" placeholder="Code" matInput formControlName="code">
     </mat-form-field>
     <mat-form-field>
-        <input type="text" placeholder="Currency code" matInput formControlName="code">
+        <input type="text" placeholder="Name" matInput formControlName="name">
     </mat-form-field>
-    <button type="submit" mat-raised-button collor="primary">Add Currency</button>
+    <mat-form-field>
+        <input type="text" placeholder="TenantId" matInput formControlName="tenantId">
+    </mat-form-field>
+    <mat-checkbox color="primary" formControlName="default">Default
+    </mat-checkbox>
+    <mat-dialog-actions>
+        <button mat-button color="primary" mat-dialog-close="true" type="submit">Add Currency</button>
+        <button mat-button color="primary" mat-dialog-close="false">Cancel</button>
+    </mat-dialog-actions>
 </form>

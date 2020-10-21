@@ -12,22 +12,27 @@ export class AddDialogComponent implements OnInit {
   addForm: FormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    private tenantCurrensyService: TenantCurrencyService) { }
+    private service: TenantCurrencyService) { }
 
   ngOnInit(): void {
     this.addForm = new FormGroup({
-      'tenantId': new FormControl(null, Validators.required),
-      'code': new FormControl(null, Validators.required)
+      'code': new FormControl(null),
+      'name': new FormControl(null),
+      'tenantId': new FormControl(null),
+      'default': new FormControl(false)
     })
   }
 
-  addTenantCurrency() {
-    console.log('add: ' + this.addForm.value.tenantId, this.addForm.value.code);
-    // this.tenantCurrensyService.addCurrency(this.addForm.value.tenantId, this.addForm.value.code)
-    //   .subscribe((res) => {
-    //     // this.dataSource = res;
-    //     console.log("add res: " + res);
-    //   })
+  addCurrency() {
+    console.log('add: ' +
+      this.addForm.value.code,
+      this.addForm.value.name,
+      this.addForm.value.tenantId
+    );
+    this.service.addCurrency(this.addForm.value.code, this.addForm.value.name, this.addForm.value.tenantId, this.addForm.value.default)
+      .subscribe((res) => {
+        console.log('add res: ' + res);
+      })
   }
 
 }

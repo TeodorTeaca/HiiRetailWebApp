@@ -1,18 +1,24 @@
 <section fxLayoutAlign="center">
     <mat-card class="card" fxFlex="500px">
-        <form [formGroup]="addForm" fxLayout="column" (ngSubmit)="addCurrency()">
+        <form [formGroup]="getForm" fxLayout="column" (ngSubmit)="getTenantCurrency()">
             <mat-form-field>
-                <input type="text" placeholder="Code" matInput formControlName="code">
+                <input type="text" placeholder="Customer Id" matInput formControlName="tenantId">
+            </mat-form-field>
+            <button type="submit" color="primary" mat-raised-button>Get Currency</button>
+        </form>
+    </mat-card>
+</section>
+
+<section fxLayoutAlign="center">
+    <mat-card class="card" fxFlex="500px">
+        <form [formGroup]="putDefaultForm" fxLayout="column" (ngSubmit)="putDefaultCurrency()">
+            <mat-form-field>
+                <input type="text" placeholder="Customer Id" matInput formControlName="tenantId">
             </mat-form-field>
             <mat-form-field>
-                <input type="text" placeholder="Name" matInput formControlName="name">
+                <input type="text" placeholder="Currency Id" matInput formControlName="currencyId">
             </mat-form-field>
-            <mat-form-field>
-                <input type="text" placeholder="TenantId" matInput formControlName="tenantId">
-            </mat-form-field>
-            <mat-checkbox color="primary" formControlName="default">Default
-            </mat-checkbox>
-            <button type="submit" color="primary" mat-raised-button>Add Currency</button>
+            <button type="submit" color="primary" mat-raised-button>Set Default</button>
         </form>
     </mat-card>
 </section>

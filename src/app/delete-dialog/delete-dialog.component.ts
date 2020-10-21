@@ -10,8 +10,7 @@ import { TenantCurrencyService } from '../services/tenant-currency.service'
 })
 export class DeleteDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    private tenantCurrensyService: TenantCurrencyService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
   }

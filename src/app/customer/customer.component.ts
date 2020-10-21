@@ -11,28 +11,30 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-administrator',
-  templateUrl: './administrator.component.html',
-  styleUrls: ['./administrator.component.css']
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.css']
 })
 
-export class AdministratorComponent implements OnInit, AfterViewInit {
-  getSelectedForm: FormGroup;
-  displayedColumns = ['select', 'id', 'code', 'name'];
-  displayedColumnsSelected = ['id', 'code', 'name'];
-  dataSource = new MatTableDataSource();
-  dataSourceSelected = new MatTableDataSource();
-  selection = new SelectionModel(true, []);
-  arrayElements: any[] = [];
+export class CustomerComponent implements OnInit, AfterViewInit {
+  getForm: FormGroup;
+  putDefaultForm: FormGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: TenantCurrencyService) { }
+  displayedColumns = ['id', 'code', 'name'];
+
+  dataSource = new MatTableDataSource();
+
+  constructor(private service: TenantCurrencyService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getSelectedForm = new FormGroup({
+    this.getForm = new FormGroup({
       'tenantId': new FormControl(null),
-      'defaultCurrencyId': new FormControl(null)
+    });
+    this.putDefaultForm = new FormGroup({
+      'tenantId': new FormControl(null),
+      'currencyId': new FormControl(null)
     });
 
     this.getAllCurrencies();
@@ -47,31 +49,20 @@ export class AdministratorComponent implements OnInit, AfterViewInit {
   getAllCurrencies() {
     this.service.getAllCurrencies().subscribe((res: any) => {
       this.dataSource.data = res;
-      console.log("get res: " + res);
+      console.log('get res: ' + res);
     })
   }
-
-  //////////////////////////////////////////SELECTIONS////////////////////////////////////////////
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-  selectTrigher() {
-    this.dataSourceSelected.data = this.selection.selected;
-  }
-  getSelected() {
-    this.arrayElements = this.selection.selected;
-    let selectedId = this.arrayElements.map(a => a.id);
-    this.service.addSelectedCurrency(this.getSelectedForm.value.tenantId, this.getSelectedForm.value.defaultCurrencyId, selectedId)
+  getTenantCurrency() {
+    this.service.getTenantCurrency(this.getForm.value.tenantId)
       .subscribe((res: any) => {
-        console.log("get set def: " + res);
-        this.dataSourceSelected.data = null;
+        this.dataSource.data = res;
+        console.log('get res: ' + res);
+      })
+  }
+  putDefaultCurrency() {
+    this.service.changeDefaultCurrency(this.putDefaultForm.value.tenantId, this.putDefaultForm.value.currencyId)
+      .subscribe((res: any) => {
+        console.log('get res: ' + res);
       })
   }
 

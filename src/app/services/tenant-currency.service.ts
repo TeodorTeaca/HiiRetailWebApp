@@ -9,23 +9,43 @@ export class TenantCurrencyService {
     constructor(private http: HttpClient) { }
 
     getAllCurrencies() {
-        return this.http.get('http://localhost:8000/Currency/V1/currency').pipe(map((res: any) => res))
+        return this.http.get('http://localhost:8000/Currency/V1/currency')
+            .pipe(map((res: any) => res));
     }
 
-    addCurrency(code, name, tenantId) {
+    getTenantCurrency(tenantId) {
+        return this.http.get(`http://localhost:8000/Currency/V1/currency/${tenantId}`)
+            .pipe(map((res: any) => res));
+    }
+
+    addCurrency(code, name, tenantId, check) {
         var formData: any = new FormData();
         formData.append('Id', 0);
         formData.append('code', code);
         formData.append('Name', name);
-        formData.append('tenantId', '');
+        formData.append('tenantId', tenantId);
+        formData.append('isDefaultCurrency', check);
+
         return this.http.post(`http://localhost:8000/Currency/V1/currency`, formData)
-            .pipe(
-                map((res: any) => res)
-            )
+            .pipe(map((res: any) => res));
     }
 
-    addSelectedCurrency(selectedArray) {
-        console.log(selectedArray);
+    deleteCurrency(currencyId) {
+        console.log('sve:' + currencyId);
+        return this.http.delete(`http://localhost:8000/Currency/V1/currency/${currencyId}`)
+            .pipe(map((res: any) => res));
+    }
+
+    addSelectedCurrency(customerId, defaultCurrencyId, selectedArray) {
+        console.log(customerId, defaultCurrencyId, selectedArray);
+        return this.http.post(`http://localhost:8000/Currency/V1/currency/SetCurrencies/${customerId}?defaultCurrencyId=${defaultCurrencyId}`, selectedArray)
+            .pipe(map((res: any) => res));
+    }
+
+    changeDefaultCurrency(tenantId, currencyId) {
+        console.log('sve:' + tenantId, currencyId);
+        return this.http.post(`http://localhost:8000/Currency/V1/currency/${tenantId}/${currencyId}`, {})
+            .pipe(map((res: any) => res));
     }
 
 }

@@ -20,9 +20,9 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="tenantId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Tenant Id</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.tenantId}}</mat-cell>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="code">
@@ -30,32 +30,49 @@
                 <mat-cell *matCellDef="let row">{{row.code}}</mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+            </ng-container>
+
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
+        <mat-paginator [pageSize]="4" [pageSizeOptions]="[4,8,10]"></mat-paginator>
+
     </mat-card>
 </section>
 
 <section fxLayoutAlign="center">
     <mat-card class="card" fxFlex="500px">
+        <form [formGroup]="getSelectedForm" fxLayout="column" (ngSubmit)="getSelected()">
+            <mat-form-field>
+                <input type="text" placeholder="Tenant Id" matInput formControlName="tenantId">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="text" placeholder="Default Currency Id" matInput formControlName="defaultCurrencyId">
+            </mat-form-field>
+            <button type="submit" color="primary" mat-raised-button>Send Selected</button>
+        </form>
+
         <mat-table #table [dataSource]="dataSourceSelected" matSort>
-
-            <ng-container matColumnDef="tenantId">
-                <mat-header-cell *matHeaderCellDef>Tenant Id</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.tenantId}}</mat-cell>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
             </ng-container>
-
             <ng-container matColumnDef="code">
-                <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
                 <mat-cell *matCellDef="let row">{{row.code}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumnsSelected"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumnsSelected;"></mat-row>
-        </mat-table><br>
-
-        <form [formGroup]="getSelectedForm" fxLayout="column" (ngSubmit)="getSelected()">
-            <button type="submit" mat-raised-button color="primary">Send Selected</button>
-        </form>
+        </mat-table>
+        <mat-paginator [pageSize]="4" [pageSizeOptions]="[4,8,10]"></mat-paginator>
+        <br>
     </mat-card>
 </section>

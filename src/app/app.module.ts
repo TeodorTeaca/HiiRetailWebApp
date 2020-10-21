@@ -10,20 +10,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TenantCurrencyService } from './services/tenant-currency.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
-import { EditDialogComponent } from './edit-dialog/edit-dialog.component'
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { TenantComponent } from './tenant/tenant.component';
+import { CustomerComponent } from './customer/customer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AddDialogComponent,
-    EditDialogComponent,
     DeleteDialogComponent,
     AdministratorComponent,
-    TenantComponent
+    TenantComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +37,6 @@ import { TenantComponent } from './tenant/tenant.component';
   ],
   entryComponents: [
     AddDialogComponent,
-    EditDialogComponent,
     DeleteDialogComponent
   ],
   providers: [TenantCurrencyService],

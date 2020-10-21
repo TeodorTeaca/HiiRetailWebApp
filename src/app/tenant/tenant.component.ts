@@ -6,7 +6,6 @@ import { TenantCurency } from '../models/tenant-curency';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,9 +36,10 @@ export class TenantComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.addForm = new FormGroup({
-      'code': new FormControl(null, Validators.required),
-      'name': new FormControl(null, Validators.required),
-      'tenantId': new FormControl(null)
+      'code': new FormControl(null),
+      'name': new FormControl(null),
+      'tenantId': new FormControl(null),
+      'default': new FormControl(false)
     });
 
     this.getAllCurrencies();
@@ -54,43 +54,43 @@ export class TenantComponent implements OnInit, AfterViewInit {
   getAllCurrencies() {
     this.service.getAllCurrencies().subscribe((res: any) => {
       this.dataSource.data = res;
-      console.log("get res: " + res);
+      console.log('get res: ' + res);
     })
   }
 
   addCurrency() {
-    console.log('add: ' +
-      this.addForm.value.code,
-      this.addForm.value.name,
-      this.addForm.value.tenantId
+    console.log('add: ' + this.addForm.value.code, this.addForm.value.name, this.addForm.value.tenantId, this.addForm.value.default
     );
-    this.service.addCurrency(this.addForm.value.code, this.addForm.value.name, this.addForm.value.tenantId)
+    this.service.addCurrency(this.addForm.value.code, this.addForm.value.name, this.addForm.value.tenantId, this.addForm.value.default)
       .subscribe((res) => {
         this.getAllCurrencies();
-        console.log("add res: " + res);
+        console.log('add res: ' + res);
       })
+    this.addForm.reset();
   }
 
   ////////////////////////////////////////////////ACTIONS/////////////////////////////////////////////////
   addNew() {
-    const dialogRef = this.dialog.open(AddDialogComponent, { data: { code: 'code' } });
-
+    const dialogRef = this.dialog.open(AddDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { }
+      if (result == 'true') {
+        console.log(result);
+        this.getAllCurrencies();
+      }
     });
   }
-  startEdit(i, id, title) {
-    const dialogRef = this.dialog.open(EditDialogComponent, { data: { code: 'code' } });
 
+  deleteItem(currencyId, name) {
+    console.log('input:' + currencyId);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { name: name } });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { }
-    });
-  }
-  deleteItem(i, id, title) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { code: 'code' } });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) { }
+      if (result == 'true') {
+        this.service.deleteCurrency(currencyId)
+          .subscribe((res) => {
+            this.getAllCurrencies();
+            console.log('deleted:' + res);
+          })
+      }
     });
   }
 
