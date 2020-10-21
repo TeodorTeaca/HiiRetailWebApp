@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Add new currency</h2>
+<form [formGroup]="addForm" fxLayout="column" (ngSubmit)="addTenantCurrency()">
+    <mat-form-field>
+        <input type="text" placeholder="Tenant Id" matInput formControlName="tenantId">
+    </mat-form-field>
+    <mat-form-field>
+        <input type="text" placeholder="Currency code" matInput formControlName="code">
+    </mat-form-field>
+    <button type="submit" mat-raised-button collor="primary">Add Currency</button>
+</form>

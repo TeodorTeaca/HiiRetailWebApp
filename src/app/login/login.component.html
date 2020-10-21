@@ -1,0 +1,21 @@
+<section class="card-form" fxLayoutAlign="center">
+    <mat-card fxFlex="400px">
+        <div class="form" fxLayoutAlign="center">
+            <form fxLayout="column" [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-label>User Name</mat-label>
+                    <input matInput type="text" formControlName="username">
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput type="text" formControlName="password">
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput type="text" formControlName="email">
+                </mat-form-field><br>
+                <button mat-raised-button color="primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </mat-card>
+</section>

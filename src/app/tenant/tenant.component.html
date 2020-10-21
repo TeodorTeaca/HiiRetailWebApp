@@ -1,0 +1,64 @@
+<section fxLayoutAlign="center">
+    <mat-card class="card" fxFlex="500px">
+        <form [formGroup]="addForm" fxLayout="column" (ngSubmit)="addCurrency()">
+            <mat-form-field>
+                <input type="text" placeholder="Code" matInput formControlName="code">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="text" placeholder="Name" matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="text" placeholder="TenantId" matInput formControlName="tenantId">
+            </mat-form-field>
+            <button type="submit" color="primary" mat-raised-button>Add Currency</button>
+        </form>
+    </mat-card>
+</section>
+
+<section fxLayoutAlign="center">
+    <mat-card class="card" fxFlex="500px">
+        <mat-form-field class="search">
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+        </mat-form-field>
+
+        <mat-table #table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.code}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+            </ng-container>
+
+            <!-- actions -->
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    <button mat-icon-button color="primary" (click)="addNew()">
+                        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+                    </button>
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i=index;">
+                    <button mat-icon-button color="primary" (click)="startEdit(i, row.id, row.title)">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="primary" (click)="deleteItem(i, row.id, row.title)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSize]="4" [pageSizeOptions]="[4,8,10]"></mat-paginator>
+    </mat-card>
+</section>
