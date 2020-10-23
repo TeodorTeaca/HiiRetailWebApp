@@ -44,7 +44,7 @@ export class TenantCurrencyService {
 
     changeDefaultCurrency(tenantId, currencyId) {
         console.log('sve:' + tenantId, currencyId);
-        return this.http.post(`http://localhost:8000/Currency/V1/currency/${tenantId}/${currencyId}`, {})
+        return this.http.post(`http://localhost:8000/Currency/V1/currency/${tenantId}/${currencyId}`, undefined)
             .pipe(map((res: any) => res));
     }
 
