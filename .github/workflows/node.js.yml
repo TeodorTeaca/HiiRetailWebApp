@@ -28,11 +28,3 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
 
-    - name: Notify Slack if failed
-  if: ${{ failure() && (github.event_name == 'push' || (github.event_name == 'repository_dispatch' && github.event.action == 'manual-build-publish')) }}
-  uses: extenda/actions/slack-message@v0
-  with:
-      title: 'Build failed for ${{ github.repository }}: ${{ github.workflow }} :heavy_exclamation_mark:'
-      text: 'Build failed on ${{ github.event_name }} event. Branch or tag: ${{ github.ref }}. Workflow: ${{ github.workflow }}. Run id: ${{ github.run_id }}'
-      fallback: Build failed on ${{ github.event_name }} event.
-      service-account-key: ${{ secrets.SECRET_AUTH }}
